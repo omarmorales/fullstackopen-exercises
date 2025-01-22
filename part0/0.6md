@@ -1,0 +1,19 @@
+sequenceDiagram
+    participant browser
+    participant server
+
+    Note over browser: User writes a note in the text field and clicks "Save".
+
+    browser->>browser: Form submit event triggers JavaScript (preventDefault called).
+
+    browser->>browser: Create a new note object with content and timestamp.
+    browser->>browser: Add the new note to the local notes array.
+    browser->>browser: Dynamically update the notes displayed on the page using DOM manipulation.
+
+    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+    activate server
+    Note right of server: The request contains the note as JSON:<br>{ content: "new note", date: "2025-01-22T10:00:00.000Z" }
+    server-->>browser: HTTP 201 Created with confirmation
+    deactivate server
+
+    Note right of browser: The server does not send a redirect.<br>The SPA remains on the same page.
